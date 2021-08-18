@@ -1,0 +1,913 @@
+
+
+ <div class="container">
+    <div class="row">
+        <div class="col-xs-12">
+       
+
+
+
+   
+<div *ngIf="alert" class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color:green">
+    <strong>{{Registerstatus}}</strong>
+    
+  </div>
+  
+
+
+
+<form class="mainform" [hidden]="ishiddenform">
+<div style="margin: 50px;display: flex;flex-direction: row;justify-content: center; background-color:pink;margin-bottom:20px" >
+    <div tabindex="0" class="e-card e-card-horizontal" style="width:400px">
+<div class="row">
+    <div class="col-md-8 offset-md-3 mt-4">
+    <h3>Register New member</h3>
+<form #authForm="ngForm">
+<div class="form-group">
+<label for="registermembername" style="color:black; font-style: normal;">MemberName *:</label>
+<input type="text"
+class="form-control"
+required
+id="registermembername"
+name="registermembername"
+[(ngModel)]="registermembername"
+input style="margin-left:25px;"
+(keypress)="keyPressAlphaspace($event)"
+placeholder="Enter Member Name">
+</div>
+
+
+    <div class="form-group">
+        <hr>
+        <label for="registermemberaddress" style="color: black;">Address *: </label>
+        <input type="text"
+        class="form-control"
+        input style="margin-left:25px"
+        id="registermemberaddress"
+        required
+        name="registermemberaddress"
+        [(ngModel)]="registermemberaddress"
+        placeholder="Enter Member Address">
+        </div>
+        <div class="form-group">
+            <hr>
+            <label for="registermembercountry" style="color: black;">Country *: </label>
+           <select
+           class="form-control"
+           required
+           id="registermembercountry"
+           name="registermembercountry"
+           [(ngModel)]="country"
+           (ngModelChange)="statelist($event)"
+           >
+            <option value="India">India</option>
+            <option value="USA">USA</option>
+           
+        </select>
+    
+            </div>
+            
+                <div class="form-group">
+                    <hr>
+                    <label for="secret" style="color: black;">State *: </label>
+                    <select
+                    id="secret"
+                    name="secret"
+                    required
+                    class="form-control"
+                    [(ngModel)]="secret"
+                    (ngModelChange)="citylist($event)"
+                    >
+                    <option value={{State1}}>{{State1}}</option>
+                    <option value={{state2}}>{{state2}}</option>
+
+                    </select>
+                  
+                    </div>
+
+                    <div class="form-group">
+                        <hr>
+                        <label for="registermembercity" style="color: black;">City *: </label>
+                     
+                        <select
+                         style="margin-left:25px"
+                        class="form-control"
+                        required
+                        id="registermembercity"
+                        name="registermembercity"
+                        [(ngModel)]="registermembercity"
+                        >
+                   
+                        <option value={{city1}}>{{city1}}</option>
+                        <option value={{city2}}>{{city2}}</option>
+            
+            </select>
+                        </div>
+                        <form [formGroup]="form" >
+                        <div class="form-group">
+                            <hr>
+                            <label for="registeremail" style="color: black;">Email *: </label>
+                            <input type="text"
+                            formControlName="email" 
+                            input style="margin-left:25px"
+                            class="form-control"
+                            id="email"
+                            name="email"
+                            placeholder="Enter Member email"
+                            [(ngModel)]="emailvalue" 
+                            required
+
+                            >
+
+                            <div *ngIf="f.email.touched && f.email.invalid" class="alert alert-danger" >  
+                                <div *ngIf="f.email.errors?.required" style="background-color: red">Email is required.</div>  
+                                <div *ngIf="f.email.errors?.email"  style="background-color:red">Provide valid email</div>  
+                            </div>  
+
+                            <!-- <div *ngIf="email.touched && !email.valid" class="alert alert-danger" style="background-color: red;">
+                                Please, enter valid email address
+                            </div> -->
+
+                             <!-- <span class="help-block" *ngIf="!email.valid && email.touched" style="color: darkred;">Please enter a valid email</span> --> -->
+                            </div>
+                            </form>
+                            <div class="form-group">
+                                <hr>
+                                <label for="registermemberpan" style="color: black;">PAN *: </label>
+                                <input type="text"
+                                input style="margin-left:25px"
+                                class="form-control"
+                                id="registermemberpan"
+                                name="registermemberpan"
+                                required
+                                (keypress)="keyPressAlphanumeric($event)"
+                                maxlength="12"
+                                placeholder="Enter Member PAN"
+                                [(ngModel)]="registermemberpan">
+                                </div>
+                                <div class="form-group">
+                                    <hr>
+                                    <label for="registermemberdob">DOB *: </label>
+                                    <input type="date"
+                                    input style="margin-left:25px" 
+                                    class="form-control"
+                                    max="2021-08-13"
+                                    required
+                                    id="registermemberdob"
+                                    name="registermemberdob"
+                                    [(ngModel)]="registermemberdob"
+                                    (ngModelChange)="onCreateAge($event)"
+                                    >
+                                        
+                                    </div>
+                                    <div class="form-group">
+                                        <hr>
+                                        <label for="registermemberage">Age *: </label>
+                                        <input type="text"
+                                        class="form-control"
+                                        
+                                        id="registermemberage"
+                                        name="registermemberage"
+                                       [(ngModel)]="registermemberage"
+                                       required
+                                       value={{showAgevalue}}
+                                       
+                                        >
+            
+                                                    
+                                     <span class="help-block" *ngIf="errorvisible" style="color: darkred;" >{{errorAge}}</span>
+                                    </div>
+
+                                    <form [formGroup]="form" >
+                                    <div class="form-group">
+                                        <hr>
+                                        <label for="registermembernumber">ContactNumber *: </label>
+                                        <input type="text"
+                                        input style="margin-left:25px"
+                                        class="form-control"
+                                        formControlName="mobileNumber"
+                                        (keypress)="keyPressNumbers($event)"
+                                        id="mobile"
+                                        name="mobile"
+                                        required
+                                        maxlength="10"
+                                        placeholder="Enter Member ContactNumber"
+                                       [(ngModel)]="registermembernumber" 
+                                       
+                                        >
+                                         
+                                        <div *ngIf="f.mobile.touched && f.mobile.valid" class="alert alert-danger" > 
+                                            <div *ngIf="f.mobile.errors?.required" style="background-color: red">Mobile Number is required.</div>  
+                                            <div *ngIf="f.mobile.errors?.pattern"style="background-color: red">Please, Enter 10 digit Mobile Number.</div>  
+                                            </div>  
+                                    </div>
+
+                                        <!-- <p class="num" *ngIf="validnumber" style="color:red;">Please provide 10 digit number</p> -->
+</form>
+                                     <!-- <span class="help-block" *ngIf="errorvisible" style="color: darkred;" >{{errorAge}}</span> -->
+
+                                    <hr>
+                                    <button class="btn btn-primary" style="background-color: blue; border: red; margin-top: 20px; width:60px" (click)="onCreateMember()" [disabled]="!authForm.valid "
+                                    >Submit</button>
+                                   
+                                </form>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                        </form>
+
+                        
+                         
+
+
+                            <div  *ngIf="buttonAlert" class="alert alert-success" role="alert">
+                                <div class="card" style="width: 40rem; background-color:white; margin-top:20px">
+                                <h2 style="color:black;">Registration successfull!</h2>
+                                <h2 style="color:red; font-style=bold; margin-top=20px">{{heading}}</h2>
+                                <button class="btn btn-primary" style="background-color: green; width:60px" (click)="onViewpanel()">View</button>
+                                <button class="btn btn-primary" style="background-color: green; margin-left:60px" (click)="onadddepend()"[hidden]="ishidedependentbtn">{{dependent}}</button>
+                                <button class="btn btn-primary" style="background-color: green; margin-left:60px" [hidden]="shoeviewdependent"(click)="oneditdepedent()">View Depedent</button>
+                                <button class="btn btn-primary" style="background-color: green; margin-left:60px" (click)="onaddclaims()"[hidden]="ishideclaims">Add claims</button>   
+                                <button class="btn btn-primary" style="background-color: green; margin-left:60px" [hidden]="showclaimdepedent" (click)="onaddclaimsdeendent()">Add claims-Depedendent</button>   
+
+                            </div>
+                                <div>
+
+<!-- //add dpendent claim -->
+
+<div  *ngIf="adddependentclaim" class="alert alert-success" role="alert" [hidden]="hideclaimdependent1">
+    
+    <form class="editform">
+
+      <div class="card" style="width: 45rem; background-color:pink; margin-top:20px; margin-bottom:20px; justify-content: center">
+          <div *ngIf="savedepedentclaimsuccess" class="alert alert-success alert-dismissible fade show" role="alert" style="background-color:red">
+              
+            <strong>{{claimIdependebtfinal}}</strong>
+          
+            </div>
+
+            <p>Dependent 1</p>
+            <div class="card" style="width: 45rem; background-color:pink">
+
+                <button class="btn btn-primary" style="background-color:red; margin-left:600px; width:50px" (click)="onCloseclaimdependent1()">Close</button>
+                </div>
+                <hr>
+  <form #authForm="ngForm">
+      <div class="form-group" style="margin-top:20px; margin-bottom:20px;  justify-content: center" [hidden]="ishideclaimform">
+      <label for="claimmembername" style="color:black; font-style: normal; margin-top:10px">MemberName *:</label>
+      <input type="text"
+      class="form-control"
+      id="claimmembername"
+      name="claimmembername"
+      required
+      input style="margin-left:25px;"
+      [(ngModel)]="depedentname"
+     (keypress)="keyPressAlphaspace($event)"
+      value={{depedentname}}
+     >
+      </div>
+      <div class="form-group">
+        <hr>
+        <label for="claimmemberdob">DOB *: </label>
+        <input type="date"
+        input style="margin-left:25px" 
+        class="form-control"
+        max="2021-08-13"
+        required
+        id="claimmemberdob"
+        name="claimmemberdob"
+        [(ngModel)]="claimmemberdob"
+        >
+            
+        </div>
+
+        <div class="form-group">
+            <hr>
+            <label for="claimmemberdoa">Date of admisssion *: </label>
+            <input type="date"
+            input style="margin-left:25px" 
+            class="form-control"
+            max="2021-08-13"
+            required
+            id="claimmemberdoa"
+            name="claimmemberdoa"
+            [(ngModel)]="claimmemberdoa"
+
+            >
+                
+            </div>
+
+            <div class="form-group">
+                <hr>
+                <label for="claimmemberdod">Date of discharge *: </label>
+                <input type="date"
+                input style="margin-left:25px" 
+                class="form-control"
+                max="2021-08-13"
+                required
+                id="claimmemberdod"
+                name="claimmemberdod"
+                [(ngModel)]="claimmemberdod"
+
+                >
+                    
+                </div>
+            
+  <div class="form-group">
+          <hr>
+          <label for="providername" style="color: black;">Providername *: </label>
+          <input type="text"
+          class="form-control"
+          input style="margin-left:25px"
+          id="providername"
+          name="providername"
+          [(ngModel)]="providername"
+
+          required
+        >
+          </div>
+          <div class="form-group">
+            <hr>
+            <label for="Total-Billamt" style="color: black;">Total-Bill Amt *: </label>
+            <input type="text"
+            class="form-control"
+            input style="margin-left:25px"
+            id="TotalBillamt"
+            name="TotalBillamt"
+            [(ngModel)]="TotalBillamt"
+
+            required
+          >
+            </div>
+
+            <button class="btn btn-primary" style="background-color: blue; border: blue; margin-top: 20px; width: 20rem" (click)="onSavedepedentclaim()" [disabled]="!authForm.valid"
+            >ADD</button>
+
+           
+  </form>
+
+  <button class="btn btn-primary" style="background-color: blue; border: blue; margin-top: 20px; width: 20rem; margin-left: 20px;" (click)="claimdependent2()" [hidden]="showclaimdepedent2"
+  >ADD claim Dependent2</button>
+  
+
+  </div>
+  </form>
+  </div>
+
+
+
+
+<!-- //add dpendent claim -->
+
+
+
+
+   
+
+
+
+                                    <div  *ngIf="claimsadd" class="alert alert-success" role="alert">
+    
+                                        <form class="editform" [hidden]="isDisplayedcliam">
+                              
+                                          <div class="card" style="width: 45rem; background-color:pink; margin-top:20px; margin-bottom:20px; justify-content: center">
+                                              <div *ngIf="saveclaim" class="alert alert-success alert-dismissible fade show" role="alert" style="background-color:red">
+                                                  <strong>{{claimIfinal}}</strong>
+                                              
+                                                </div>
+                              
+                                      <form #authForm="ngForm">
+                                          <div class="form-group" style="margin-top:20px; margin-bottom:20px;  justify-content: center" [hidden]="ishideclaimform">
+                                          <label for="claimmembername" style="color:black; font-style: normal; margin-top:10px">MemberName *:</label>
+                                          <input type="text"
+                                          class="form-control"
+                                          id="claimmemberdependentname"
+                                          name="claimmemberdependentname"
+                                          required
+                                          input style="margin-left:25px;"
+                                          [(ngModel)]="claimmemberdependentname"
+                                          (keypress)="keyPressAlphaspace($event)"
+                                         >
+                                          </div>
+                                          <div class="form-group">
+                                            <hr>
+                                            <label for="claimmemberdob">DOB *: </label>
+                                            <input type="date"
+                                            input style="margin-left:25px" 
+                                            class="form-control"
+                                            max="2021-08-13"
+                                            required
+                                            id="claimmemberdependentdob"
+                                            name="claimmemberdependentdob"
+                                            [(ngModel)]="claimmemberdependentdob"
+                                            >
+                                                
+                                            </div>
+    
+                                            <div class="form-group">
+                                                <hr>
+                                                <label for="claimmemberdoa">Date of admisssion *: </label>
+                                                <input type="date"
+                                                input style="margin-left:25px" 
+                                                class="form-control"
+                                                max="2021-08-13"
+                                                required
+                                                id="claimmemberdependentdoa"
+                                                name="claimmemberdependentdoa"
+                                                [(ngModel)]="claimmemberdependentdoa"
+
+                                                >
+                                                    
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <hr>
+                                                    <label for="claimmemberdod">Date of discharge *: </label>
+                                                    <input type="date"
+                                                    input style="margin-left:25px" 
+                                                    class="form-control"
+                                                    max="2021-08-13"
+                                                    required
+                                                    id="claimmemberdepedentdod"
+                                                    name="claimmemberdepedentdod"
+                                                    [(ngModel)]="claimmemberdepedentdod"
+
+                                                    >
+                                                        
+                                                    </div>
+                                                
+                                      <div class="form-group">
+                                              <hr>
+                                              <label for="providername" style="color: black;">Providername *: </label>
+                                              <input type="text"
+                                              class="form-control"
+                                              input style="margin-left:25px"
+                                              id="providerdependent1name"
+                                              name="providerdependent1name"
+                                              [(ngModel)]="providerdependent1name"
+
+                                              required
+                                            >
+                                              </div>
+                                              <div class="form-group">
+                                                <hr>
+                                                <label for="Total-Billamt" style="color: black;">Total-Bill Amt *: </label>
+                                                <input type="text"
+                                                class="form-control"
+                                                input style="margin-left:25px"
+                                                id="TotalBillamtdependent1"
+                                                name="TotalBillamtdependent1"
+                                                [(ngModel)]="TotalBillamtdependent1"
+
+                                                required
+                                              >
+                                                </div>
+  
+                                                <button class="btn btn-primary" style="background-color: blue; border: blue; margin-top: 20px; width: 20rem" (click)="onSaveclaim()" [disabled]="!authForm.valid"
+                                                >ADD</button>
+                                      </form>
+                                      </div>
+                                      </form>
+                                      </div>
+
+                                     <!-- //dependent claim2 -->
+
+   <div  *ngIf="claimdependentdetails2" class="alert alert-success" role="alert" [hidden]="hideclaimdependent2" >
+    
+    <form class="editform">
+
+      <div class="card" style="width: 45rem; background-color:pink; margin-top:20px; margin-bottom:20px; justify-content: center">
+          <div *ngIf="saveclaim" class="alert alert-success alert-dismissible fade show" role="alert" style="background-color:red">
+              
+            <strong>{{claimIfinal}}</strong>
+          
+            </div>
+
+            <p>Dependent 2</p>
+            <div class="card" style="width: 45rem; background-color:pink">
+
+                <button class="btn btn-primary" style="background-color:red; margin-left:600px; width:50px" (click)="onCloseclaimdependent2()">Close</button>
+                </div>
+                <hr>
+  <form #authForm="ngForm">
+      <div class="form-group" style="margin-top:20px; margin-bottom:20px;  justify-content: center" [hidden]="ishideclaimform">
+      <label for="claimmembername" style="color:black; font-style: normal; margin-top:10px">MemberName *:</label>
+      <input type="text"
+      class="form-control"
+      id="claimmdepedent"
+      name="claimmdepedent"
+      required
+      input style="margin-left:25px;"
+      [(ngModel)]="depedentname2"
+     (keypress)="keyPressAlphaspace($event)"
+      value={{depedentname2}}
+     >
+      </div>
+      <div class="form-group">
+        <hr>
+        <label for="claimmemberdob2">DOB *: </label>
+        <input type="date"
+        input style="margin-left:25px" 
+        class="form-control"
+        max="2021-08-13"
+        required
+        id="claimmemberdependentdob2"
+        name="claimmemberdependentdob2"
+        [(ngModel)]="claimmemberdependentdob2"
+        >
+            
+        </div>
+
+        <div class="form-group">
+            <hr>
+            <label for="claimmemberdoa2">Date of admisssion *: </label>
+            <input type="date"
+            input style="margin-left:25px" 
+            class="form-control"
+            max="2021-08-13"
+            required
+            id="claimmemberdependentdoa2"
+            name="claimmemberdependentdoa2"
+            [(ngModel)]="claimmemberdependentdoa2"
+
+            >
+                
+            </div>
+
+            <div class="form-group">
+                <hr>
+                <label for="claimmemberdod2">Date of discharge *: </label>
+                <input type="date"
+                input style="margin-left:25px" 
+                class="form-control"
+                max="2021-08-13"
+                required
+                id="claimmemberdependentdod2"
+                name="claimmemberdependentdod2"
+                [(ngModel)]="claimmemberdependentdod2"
+
+                >
+                    
+                </div>
+            
+  <div class="form-group">
+          <hr>
+          <label for="providername2" style="color: black;">Providername *: </label>
+          <input type="text"
+          class="form-control"
+          input style="margin-left:25px"
+          id="providernamedependent2"
+          name="providernamedependent2"
+          [(ngModel)]="providernamedependent2"
+
+          required
+        >
+          </div>
+          <div class="form-group">
+            <hr>
+            <label for="Total-Billamt2" style="color: black;">Total-Bill Amt *: </label>
+            <input type="text"
+            class="form-control"
+            input style="margin-left:25px"
+            id="TotalBillamtdependent2"
+            name="TotalBillamtdependent2"
+            [(ngModel)]="TotalBillamtdependent2"
+
+            required
+          >
+            </div>
+
+            <button class="btn btn-primary" style="background-color: blue; border: blue; margin-top: 20px; width: 20rem" (click)="onSaveclaim()" [disabled]="!authForm.valid"
+            >ADD</button>
+
+          
+  </form>
+  </div>
+  </form>
+  </div>
+
+
+
+
+      <!-- //dependent claim2 -->
+
+   
+                                    <form class="alterdepend" [hidden]="isDisplayedview">
+                                    <div *ngIf="alertdepend" class="alert alert-sucess alert-dismissible fade show" role="alert" style="margin-top:20px">
+
+                                        <div class="card" style="width: 45rem; background-color:pink">
+                                            <div *ngIf="depedent1" class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color:green">
+                                                <strong>{{claimId}}</strong>
+                                              
+                                                </div>
+                                            <strong>"Allow to add Two depedent"</strong>
+                                            <div class="card" style="width: 45rem; background-color:pink">
+
+                                            <button class="btn btn-primary" style="background-color:blue; width:50px" (click)="oncreateAdddepedentextra()" [hidden]="ishideadd">Add</button>
+                                            <button class="btn btn-primary" style="background-color:red; margin-left:600px; width:50px" (click)="onClosedepedent()">Close</button>
+                                            </div>
+                                            <hr>
+                                        <form #authForm="ngForm">
+                                        <div class="form-group">
+                                            <label for="depedentname" style="color:black; font-style: normal;">DepedentName *:</label>
+                                            <input type="text"
+                                            class="form-control"
+                                            id="depedentname"
+                                            name="depedentname"
+                                            [(ngModel)]="depedentname"
+                                            required
+                                            input style="margin-left:25px;"
+                                            (keypress)="keyPressAlphaspace($event)"
+                                            placeholder="Enter DepedentName">
+                                            </div>
+                                            <hr>
+                                            <div class="form-group">
+                                                <label for="depedentrelation" style="color:black; font-style: normal;">DepedentRelation *:</label>
+                                                <input type="text"
+                                                class="form-control"
+                                                id="depedentrelation"
+                                                name="depedentrelation"
+                                                [(ngModel)]="depedentrelation"
+                                                required
+                                                input style="margin-left:25px;"
+                                                (keypress)="keyPressAlphaspace($event)"
+                                                placeholder="Enter DepedentRelation">
+                                                </div>
+                                                <hr>
+                                                <button class="btn btn-primary" style="background-color:red" [disabled]="!authForm.valid" (click)="submitdependent1()">Submit</button>
+                                    </form>
+                                    </div>
+                                    </div>
+                                    
+                                </form>
+
+
+                                <!-- //view/edit depedent1 -->
+
+                    
+                                <form class="editdepend" [hidden]="hideviewdepemdent">
+                                    <div *ngIf="editdepedent" class="alert alert-sucess alert-dismissible fade show" role="alert" style="margin-top:20px">
+
+                                        <div class="card" style="width: 45rem; background-color:pink">
+                                            <div *ngIf="editviewdependent1" class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color:green">
+                                                <strong>{{claimId}}</strong>
+                                              
+                                                </div>
+                                            
+                                            <strong>"Depedent 1"</strong>
+                                            <div class="card" style="width: 45rem; background-color:pink">
+
+                                            <button class="btn btn-primary" style="background-color:red; margin-left:600px; width:50px" (click)="onCloseviewdepedent()">Close</button>
+                                            </div>
+                                            <hr>
+                                        <form #authForm="ngForm">
+                                        <div class="form-group">
+                                            <label for="depedentname" style="color:black; font-style: normal;">DepedentName *:</label>
+                                            <input type="text"
+                                            class="form-control"
+                                            id="depedentname"
+                                            name="depedentname"
+                                            [(ngModel)]="depedentname"
+                                            required
+                                            input style="margin-left:25px;"
+                                            (keypress)="keyPressAlphaspace($event)"
+                                            value={{depedentname}}>
+                                            </div>
+                                            <hr>
+                                            <div class="form-group">
+                                                <label for="depedentrelation" style="color:black; font-style: normal;">DepedentRelation *:</label>
+                                                <input type="text"
+                                                class="form-control"
+                                                id="depedentrelation"
+                                                name="depedentrelation"
+                                                [(ngModel)]="depedentrelation"
+                                                required
+                                                input style="margin-left:25px;"
+                                                (keypress)="keyPressAlphaspace($event)"
+                                                value={{depedentrelation}}>
+                                                </div>
+                                                <hr>
+                                                <button class="btn btn-primary" style="background-color:red" [disabled]="!authForm.valid" (click)="editdependent1()">Submit</button>
+                                                <!-- <button class="btn btn-primary" style="background-color:red" (click)="oncreateAdddepedentextra()">Add</button> -->
+                                                <button class="btn btn-primary" style="background-color:red" (click)="onviewdependet2()" [hidden]="viewdepedent2enable">view depedent2</button>
+
+                                            </form>
+                                    </div>
+                                    </div>
+                                    
+                                </form>
+
+
+  <!-- //edit depedent -->
+<!-- edit2 -->
+
+<form class="editdepen2" [hidden]="hideviewdepemdent2" >
+
+    <div *ngIf="editdependent2" class="alert alert-sucess alert-dismissible fade show" role="alert">
+                                            
+        <div class="card" style="width: 45rem; background-color:pink; margin-top:20px">
+            <div *ngIf="submiteditviewdependentg2"  class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color:green">
+                <strong>{{claimId2}}</strong>
+                
+                </div>
+                <p> Dependent 2</p>
+                <div class="card" style="width: 45rem; background-color:pink">
+
+                    <button class="btn btn-primary" style="background-color:red; margin-left:600px; width:50px" (click)="onCloseviewdepedent2()">Close</button>
+                    </div>
+                    <hr>
+        <form #authForm="ngForm">
+        <div class="form-group">
+            <label for="depedentname" style="color:black; font-style: normal;">DepedentName *:</label>
+            <input type="text"
+            class="form-control"
+            id="depedentname2"
+            name="depedentname2"
+            [(ngModel)]="depedentname2"
+            required
+            input style="margin-left:25px;"
+            (keypress)="keyPressAlphaspace($event)"
+            value={{depedentname2}}>
+            </div>
+            <hr>
+            <div class="form-group">
+                <label for="depedentrelation" style="color:black; font-style: normal;">DepedentRelation *:</label>
+                <input type="text"
+                class="form-control"
+                id="depedentrelation2"
+                name="depedentrelation2"
+                [(ngModel)]="depedentrelation2"
+                required
+                input style="margin-left:25px;"
+                (keypress)="keyPressAlphaspace($event)"
+                value={{depedentrelation2}}>
+                </div>
+                <hr>
+                <button class="btn btn-primary" style="background-color:red" [disabled]="!authForm.valid" (click)="submiteditdependent2()">Submit</button>
+    
+            </form>
+        </div>
+</div>
+</form>
+
+
+
+
+
+<!-- edit2 -->
+
+                                <form class="alterdepend" [hidden]="isDisplayedview">
+
+                                    <div *ngIf="alertdepedendextra" class="alert alert-sucess alert-dismissible fade show" role="alert" [hidden]="isDisplayedview">
+                                                                            
+                                        <div class="card" style="width: 45rem; background-color:pink; margin-top:20px">
+                                            <div *ngIf="depedent2"  class="alert alert-warning alert-dismissible fade show" role="alert" style="background-color:green">
+                                                <strong>{{claimId2}}</strong>
+                                                
+                                                </div>
+                                        <form #authForm="ngForm">
+                                        <div class="form-group">
+                                            <label for="depedentname" style="color:black; font-style: normal;">DepedentName *:</label>
+                                            <input type="text"
+                                            class="form-control"
+                                            id="depedentname2"
+                                            name="depedentname2"
+                                            [(ngModel)]="depedentname2"
+                                            required
+                                            input style="margin-left:25px;"
+                                            (keypress)="keyPressAlphaspace($event)"
+                                            placeholder="Enter DepedentName">
+                                            </div>
+                                            <hr>
+                                            <div class="form-group">
+                                                <label for="depedentrelation" style="color:black; font-style: normal;">DepedentRelation *:</label>
+                                                <input type="text"
+                                                class="form-control"
+                                                id="depedentrelation2"
+                                                name="depedentrelation2"
+                                                [(ngModel)]="depedentrelation2"
+                                                required
+                                                input style="margin-left:25px;"
+                                                (keypress)="keyPressAlphaspace($event)"
+                                                placeholder="Enter DepedentRelation">
+                                                </div>
+                                                <hr>
+                                                <button class="btn btn-primary" style="background-color:red" [disabled]="!authForm.valid" (click)="submitdependent2()">Submit</button>
+                                    
+                                            </form>
+                                        </div>
+                                </div>
+                            </form>
+
+                           
+
+
+
+
+<div  *ngIf="alertview" class="alert alert-success" role="alert">
+    
+          <form class="editform" [hidden]="isDisplayed">
+
+            <div class="card" style="width: 45rem; background-color:pink; margin-top:20px; margin-bottom:20px; justify-content: center">
+                <div *ngIf="alertedit" class="alert alert-success alert-dismissible fade show" role="alert" style="background-color:red">
+                    <strong>Member Edited Successfully</strong>
+                
+                  </div>
+
+                  <button class="btn btn-primary" style="width: 50px; background-color: red;">Reg Date: 2021-11-08</button>
+        <form #authForm="ngForm">
+            
+            <div class="form-group">
+                <hr>
+                <label for="registermemberaddress" style="color: black;">Address *: </label>
+                <input type="text"
+                class="form-control"
+                input style="margin-left:25px"
+                id="registermemberaddress"
+                required
+                name="registermemberaddress"
+                [(ngModel)]="registermemberaddress"
+                value={{registermemberaddress}}>
+                </div>
+   
+            <div class="form-group">
+                <hr>
+                <label for="registermembercountry" style="color: black;">Country *: </label>
+               <input type="text"
+               class="form-control"
+               id="registermembercountry"
+               name="registermembercountry"
+               [(ngModel)]="country"
+               required
+               value={{country}}
+               >
+                </div>
+        
+    
+                    <div class="form-group">
+                        <hr>
+                        <label for="secret" style="color: black;">State *: </label>
+                        <input type="text"
+                        id="secret"
+                        name="secret"
+                        class="form-control"
+                        required
+                        [(ngModel)]="secret"
+                        value={{secret}}
+                        >
+                        
+                      
+                        </div>
+                            <div class="form-group">
+                                <hr>
+                                <label for="email" style="color: black;">Email *: </label>
+                                <input type="email"
+                                class="form-control"
+                                required
+                                id="emailvalue"
+                                name="emailvalue"
+                                value={{emailvalue}}
+                              
+                              >
+<!--                                 
+                                <div *ngIf="emailvalue.touched && emailvalue.invalid" class="alert alert-danger" style="background-color: red;">
+                                    Please, enter valid email address
+                                </div> -->
+                                <!-- <span class="help-block" *ngIf="!registeremail.valid && registeremail.touched" style="color: darkred;">Please enter a valid email</span> -->
+                                </div>
+                              
+      
+                             <form [formGroup]="form" >
+                                        <div class="form-group">
+                                            <hr>
+                                            <label for="registermembernumber">ContactNumber *: </label>
+                                            <input type="text"
+                                            input style="margin-left:25px"
+                                            
+                                            formControlName="mobileNumber" 
+                                            (keypress)="keyPressNumbers($event)"
+                                            id="mobileNumber"
+                                            name="mobileNumber"
+                                            required
+                                            maxlength="10"
+                                            [(ngModel)]="registermembernumber"
+                                            value={{registermembernumber}}>
+                                            <div *ngIf="f.mobileNumber.touched && f.mobileNumber.invalid" class="alert alert-danger" >  
+                                                <div *ngIf="f.mobileNumber.errors?.required" style="background-color: red">Mobile Number is required.</div>  
+                                                <div *ngIf="f.mobileNumber.errors?.pattern"style="background-color: red">Please, Enter 10 digit Mobile Number.</div>  
+                                            </div>  
+                                            </div >
+      </form>
+                                            <button class="btn btn-primary" style="background-color: blue; border: blue; margin-top: 20px; width: 20rem" (click)="onCreateEdit()" [disabled]="!authForm.valid"
+                                            >Edit</button>
+                                            <button class="btn btn-primary" style="background-color: blue; border: blue; margin-top: 20px; margin-left:40px; width: 20rem" (click)="onCloseEdit()" [disabled]="!authForm.valid"
+                                            >Close</button>
+                                        </form>
+
+                                      
+                                        
+                                       
+
+
+                                       
